@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
 
     /* URL for football data from the Guardian dataset */
     private static final String GUARDIAN_REQUEST_URL =
-            "https://content.guardianapis.com/search?q=arsenal&from-date=2018-09-30&date=2018-10-02&api-key=b7042a7f-9de6-42d2-9d53-76c559a9cfe0";
+            "https://content.guardianapis.com/search?q=arsenal&from-date=2018-10-01&to-date=2018-10-03&api-key=b7042a7f-9de6-42d2-9d53-76c559a9cfe0";
 
 
     @Override

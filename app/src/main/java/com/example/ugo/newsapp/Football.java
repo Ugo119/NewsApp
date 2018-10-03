@@ -1,5 +1,6 @@
 package com.example.ugo.newsapp;
 
+
 public class Football {
     private String description;
     private String time;
