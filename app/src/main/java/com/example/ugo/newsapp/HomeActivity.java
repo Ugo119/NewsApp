@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -40,27 +42,12 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
     /* URL for football data from the Guardian dataset */
     private static final String GUARDIAN_REQUEST_URL =
             "https://content.guardianapis.com/search?q=english-premier-league&from-date=2018-10-03&to-date=2018-10-04&api-key=b7042a7f-9de6-42d2-9d53-76c559a9cfe0";
-    // "https://content.guardianapis.com/search?q=arsenal&from-date=2018-10-01&to-date=2018-10-03&api-key=b7042a7f-9de6-42d2-9d53-76c559a9cfe0";
 
-    //This method checks if device is connected to a network
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         return cm.getActiveNetworkInfo() != null;
     }
-
-    //This method checks if device is connected to the internet
-    public boolean isInternetAvailable() {
-        try {
-            InetAddress ipAddr = InetAddress.getByName("https://content.guardianapis.com/search?q=english-premier-league&from-date=2018-10-03&to-date=2018-10-04&api-key=b7042a7f-9de6-42d2-9d53-76c559a9cfe0");
-            //You can replace it with your name
-            return !ipAddr.equals("");
-
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +93,21 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         // the bundle. Pass in this activity for the LoaderCallbacks parameter (which is valid
         // because this activity implements the LoaderCallbacks interface).
         Log.i(LOG_TAG, "TEST: calling initLoader() ...");
-        loaderManager.initLoader(FOOTBALL_LOADER_ID, null, this);
+
+        if (isNetworkConnected()) {
+            //Do loading
+            loaderManager.initLoader(FOOTBALL_LOADER_ID, null, this);
+        } else {
+            //Display No connection message
+            Toast toast = Toast.makeText(HomeActivity.this, "No internet connection", Toast.LENGTH_SHORT);
+            toast.show();
+
+            View loadingIndicator = findViewById(R.id.loading_indicator);
+            loadingIndicator.setVisibility(View.GONE);
+            mEmptyStateTextView.setText(R.string.no_footballnews);
+        }
+
+
     }
 
     @Override
