@@ -76,14 +76,14 @@ public final class QueryUtils {
                 String description = currentFootball.getString("webTitle");
 
                 // Extract the value for the key called "webPublicationDate"
-                String time = currentFootball.getString("webPublicationDate");
+                String time = currentFootball.optString("webPublicationDate");
 
                 // Extract the value for the key called "type"
-                String type = currentFootball.getString("type");
+                String type = currentFootball.optString("type");
 
 
                 // Extract the value for the key called "url"
-                String url = currentFootball.getString("webUrl");
+                String url = currentFootball.optString("webUrl");
 
                 // Create a new {@link Football} object with the description, location, time,
                 // and url from the JSON response.

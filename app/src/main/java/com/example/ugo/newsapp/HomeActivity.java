@@ -28,6 +28,9 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String LOG_TAG = HomeActivity.class.getSimpleName();
 
+    /* TextView that is displayed when the list is empty */
+    private TextView mEmptyStateTextView;
+
     /* Adapter for the list of football news */
     private FootballAdapter mAdapter;
 
@@ -43,6 +46,9 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
 
         //Find a reference to the {@Link ListView} in the Layout
         ListView listView = (ListView) findViewById(R.id.list);
+
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        listView.setEmptyView(mEmptyStateTextView);
 
         // Create a new adapter that takes an empty list of football news as input
         mAdapter = new FootballAdapter(this, new ArrayList<Football>());
@@ -103,6 +109,9 @@ public class HomeActivity extends AppCompatActivity implements LoaderManager.Loa
         // Hide loading indicator because the data has been loaded
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
+
+        // Set empty state text to display "No no football news found."
+        mEmptyStateTextView.setText(R.string.no_footballnews);
 
 
         // Clear the adapter of previous football data
